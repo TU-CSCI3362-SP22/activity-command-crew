@@ -1,44 +1,32 @@
-# Visitor Activity
-
-This activity is designed to be completed in groups of 1-3. Phase 1 involves familiarizing yourself with the existing code base and add features. In Phase 2 we will cover the visitor pattern in the abstract. In Phase 3 you will implement the visitor pattern.
+# Command Activity
 
 ## Phase 1 - 
-Browse to the DesignPatterns-Visitor package. I will explain the structure of the code, and you will then have 25 minutes to add the `annualCost` feature. You can create an example shop in the Playground with `Shop fidgetEmporium`.
-
-We need to know the annual cost of operating the machine shop. The annual cost for job machines is simply their maintenance cost. However, for utility machines we must factor both the maintenance cost and the amortized purchase price (i.e. purchase price divided by lifetime). There is no annual cost for tools.
-You will need to add the `annualCost` method to:
-- `Shop`
-- `Room`
-- `Equipment` (as an abstract method)
-- Appropriate subclasses of equipment.
+Browse to the DesignPatterns-Command package. We will explain the structure of the code, and you will have time to familiarize yourself with it. You're a gameplay programmer at Earth 3 Interactive, where you are making Earth, but 3. You've been assigned to work on the input handling functionality of the Earth3 engine. Currently, there's only 1 core abstraction for the input in the game: a button. This abstraction can be found in the `Button` class and its subclasses. To make a button in the current codebase, you subclass `Button` (as in `ButtonA` etc.) and hardcode the functionality that the button accesses in its `doAction` method. There's an example of how this works in the `ExampleController` class to speed up development for people learning the API. To make it run, you just call `ExampleController new makeExample`. The Entity class in your game is called `GameObject` and simply holds an x and y position in `posX` and `posY`. 
 
 ## Phase 2 - 
-The visitor pattern is used to decouple operations that are performed over a wide range of objects from the class definitions of those objects. When adding a new property we want to evaluate (or operation we want to perform), the straightforward approach is to create a new method for shops, rooms, and each piece of equipment. By using dynamic dispatch, the correct version of the method gets called for the correct object. However, each property requires a new method for each class, and the evaluation of th eproperty is spread across the class hierarchy.
+Turns out the CEO, Kobby Botick, had his son play the game, and his son thought that having jump on `ButtonA` was "cringe." Your boss told you to make `ButtonA` instead do duck. So, since everything is currently hardcoded, you'll need to take the code from `ButtonB`'s `doAction` and copy it into `ButtonA`'s `doAction`. No big deal! 
 
-To solve this, we will embody the operations or properties as individual objects called visitors. Each object in our hierarchy will accept visitors, inform the visitor to process itself using a `visit` method, and then send the visitor on to any composite objects. This means we require only a single `accept` method in each class. Dynamic dispatch will be used to invoke the correct `visit` method, based on the property we are evaluating.
-
-The visitor is then responsible for knowing how to process each object, based on it's class. In order to know the class of the object, we use *double dispatch* - objects of class `Foo` will invoke a specific `visitFoo` method. Each visitor will then implement `visitFoo` for every relevant class in the hierarchy. Picking the relevant classes requires some care.
-
-Note that the number of `visit` methods can be quite large - and many visitors might only need to process specific ones. For example, a power visitor doesn't need to look at unpowered tools. One solution to this is an abstract visitor base class that implements "null methods" - methods which do nothing, but can be overridden if needed.
+The problem is, Mr. Earth's other son played the game with that new change, and he said that having jump ***not*** be on `ButtonA` was "not pog." Therefore, your boss has given you a new requirement: the buttons' functionality should be able to be rebound at run time. In order to accomplish this, create `ButtonAJump` and `ButtonADuck` as subclasses of `ButtonA`, hardcoding the appropriate functionality into each subclass' `doAction` method. Again, not so bad! When you want to rebind functionality at runtime, all you have to do is reassign the variable holding an instance of `ButtonA` to be an instance of `ButtonAJump` or `ButtonADuck`. Try adding to the example code to test this out.
 
 ## Phase 3 -
-Refactor your code to use the visitor pattern.
-1. Create an abstract `MachineShopVisitor` class with the following methods.
-   - `report` (fully abstract)
-   - `visitX:` for all important classes `X`. Begin with `visitRoom:`, `visitShop:`, and `visitEquipment:`. 
-   - `visitX:` can, by default, do nothing.
-1. You will need to add `accept: aVisitor` methods to `Room`, `Shop`, and `Equipment`.   
-   - For rooms and shops, you will both tell the visitor to `visitRoom`/`visitShop` and inform all components that they should accept the visitor.
-   - For equipment, you can just tell the visitor to `visitEquipment`.
-1. Create a `PowerVisitor` subclass of `MachineShopVisitor`.
-   - Store both idle power usage and maximum peak power usage. Initialize both to 0. 
-   - On `report` print both usages to the `Transcript`.
-   - Create the `visitX` methods necessary to compute appropriate values. If necessary, split `visitEquipment` by subclasses.
-   - Remove the corresponding methods from `Machine` (and subclasses), `Room`, and `Shop`. This will likely break the per-room power check.
-1. Add an `AnnualCostVisitor` subclass and repeat the above process.
-1. Time permitting, use a dictionary to associate the name of each room to the rooms total power usage. You will have to re-implement `powerRequired`!
+You've accomplished your task, but now you need to be able to rebind `ButtonB`'s functionality. In order to do this, you'll need to make `ButtonBJump` and `ButtonBDuck` as subclasses of `ButtonB`, having the exact same functionality as the subclasses of `ButtonA`. You have to do this before you can check in the change and go home because this is the game industry, baby, so do it. 
+
+Notice that any time you want to add functionality to one of your buttons, you must create a new subclass, one for each button that you want to be able to perform that action. Worse still, the idea of a button that performs an action when it is pressed has now been intermingled and coupled to what that action actually is. 
+
+## Interlude: Introducing the Command Pattern
+As you contemplate the sheer awfulness of the task that you have been assigned at 8:00 PM in your dark office, you stumble online across something wonderful, something glorious, something that can solve this problem for you with far less code:
+
+✨ 🌈 ✨ 🌈 ✨ ***The Command Pattern*** ✨ 🌈 ✨ 🌈 ✨
+
+The command pattern is a design pattern that enables you to separate the requester of an action from the object that actually performs the action. This means the requester does not need to know what the action is or how to execute the action, just how to communicate to the object that needs to perform it. The separation is accomplished by creating command objects which hold functions and data related to executing the action. These command objects can then be assigned to different requesters, and serve as reusable, reassignable, and reified method calls.
+
+Take our example of a controller with 4 buttons and each button triggering a certain action. Now, suppose that you want to change what each button does. As you saw, without the command pattern, this can be complex code, and require frequent rewriting of code. The command pattern allows you to easily change the assigned actions by treating commands as objects that can be passed around and assigned to different buttons. So instead of needing to create a new subclass for each and every button that wants to do any action, you can simply store the command as an object, and then reuse it at runtime as you please. 
+
 
 ## Phase 4 -
-In this phase we will identify some limitations of the visitor pattern. One has already been afforded by the activity, the rest will be outlined in class.
-
-- The visitor pattern has to pick which classes in the hierarchy get named `visit` methods. Some properties might require specifics of subclasses, while others might operate better over superclasses. It is possible to make the visit methods for subclasses default to the superclass implementation. For example, in the abstract Visitor base class, we can implement of `visitJobMachine: aJobMachine` as `self visitMachine: aJobMachine`. Then subclasses can override either both `visitJobMachine` and `visitUtility`, or just `visitMachine.` This approach introduces a lot of choice, and therefore complexity and the chance for bugs, when implementing new visitors - a problem for a pattern that is focused around implementing new visitors.
+- Delete all the subclasses of `Button`.
+- Add an instance variable to `Button` that will hold the `Command` assigned to it. 
+- Add a `Command` class with only one instance variable: an `object` that the command can modify.
+- Add the `perform` instance method to the `Command` class, representing the action that the `Command` **performs**.
+- Add subclasses of `Command` for Jump, Shoot, Duck, etc. Define the functionality for each `Command` within the `perform` method. 
+- Modify the example code to switch it to the new `Command`-centric style. Instead of creating instances of `ButtonA`, etc., you will now simply create four `Button` instances. You should then create instances of each `Command` subclass, and instead of reassigning the `Button`, you should call `button command:` and pass in the command you want to use to rebind.
