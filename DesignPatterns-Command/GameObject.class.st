@@ -48,3 +48,12 @@ GameObject >> posY: anObject [
 GameObject >> pushButton: literal [
 	(buttons detect: [ :each | each isNamed: literal ]) doAction.	
 ]
+
+{ #category : #'as yet unclassified' }
+GameObject >> replaceButton: aLiteral with: aButton [
+	"comment stating purpose of instance-side message"
+	"scope: class-variables  &  instance-variables"	
+			
+	buttons remove: (buttons detect: [ :each | each isNamed: aLiteral ]).
+	self addButton: aButton.
+]
