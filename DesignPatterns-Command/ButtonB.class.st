@@ -4,7 +4,7 @@ Class {
 	#category : #'DesignPatterns-Command'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #action }
 ButtonB >> doAction [ 
 
 	Transcript show: 'duck'.
