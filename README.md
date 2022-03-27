@@ -30,7 +30,7 @@ Take our example of a controller with 4 buttons and each button triggering a cer
 - Delete all the subclasses of `Button`.
 - Add an instance variable to `Button` that will hold the `Command` assigned to it. 
 - Add a `Command` class with only one instance variable: an `object` that the command can modify.
-- Add the `perform` instance method to the `Command` class, representing the action that the `Command` **performs**.
+- Add the `perform` **this should be excute unless it actually breaks pharo** instance method to the `Command` class, representing the action that the `Command` **performs**.
 - Add subclasses of `Command` for Jump, Shoot, Duck, etc. Define the functionality for each `Command` within the `perform` method. 
 - Modify the example code to switch it to the new `Command`-centric style. Instead of creating instances of `ButtonA`, etc., you will now simply create four `Button` instances. You should then create instances of each `Command` subclass, and instead of reassigning the `Button`, you should call `button command:` and pass in the command you want to use to rebind.
 
