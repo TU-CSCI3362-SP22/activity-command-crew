@@ -4,13 +4,15 @@ Class {
 	#instVars : [
 		'posX',
 		'posY',
-		'a',
-		'b',
-		'x',
-		'y'
+		'buttons'
 	],
 	#category : #'DesignPatterns-Command'
 }
+
+{ #category : #adding }
+GameObject >> addButton: aButton [
+	buttons add: aButton.
+]
 
 { #category : #initialization }
 GameObject >> initialize [ 
@@ -18,10 +20,8 @@ GameObject >> initialize [
 	super initialize.
 	posX := 0.
 	posY := 0.
-	a := ButtonA controlling: self.
-	b := ButtonB controlling: self.
-	x := ButtonX controlling: self.
-	y := ButtonY controlling: self.
+	buttons := OrderedCollection new.
+
 ]
 
 { #category : #accessing }
@@ -46,20 +46,20 @@ GameObject >> posY: anObject [
 
 { #category : #action }
 GameObject >> pushA [
-	a doAction.
+	(buttons detect: [ :each | each isKindOf: ButtonA ]) doAction.	
 ]
 
 { #category : #action }
 GameObject >> pushB [
-	b doAction.
+	(buttons detect: [ :each | each isKindOf: ButtonB ]) doAction.	
 ]
 
 { #category : #action }
 GameObject >> pushX [
-	x doAction.
+	(buttons detect: [ :each | each isKindOf: ButtonX ]) doAction.	
 ]
 
 { #category : #action }
 GameObject >> pushY [
-	y doAction.
+	(buttons detect: [ :each | each isKindOf: ButtonY ]) doAction.	
 ]
