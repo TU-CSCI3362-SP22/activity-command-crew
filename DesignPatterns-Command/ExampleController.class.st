@@ -15,8 +15,8 @@ ExampleController >> makeExample [
    ent addButton: (ButtonX controlling: ent).
 	ent addButton: (ButtonY controlling: ent).
 		
-	ent pushA.
-	ent pushB.
-	ent pushX.
-	ent pushY.
+	ent pushButton: $A.
+	ent pushButton: $B.
+	ent pushButton: $X.
+	ent pushButton: $Y.
 ]

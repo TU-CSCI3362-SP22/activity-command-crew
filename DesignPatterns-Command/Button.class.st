@@ -32,3 +32,9 @@ Button >> doAction [
 
 	self subclassResponsibility.
 ]
+
+{ #category : #action }
+Button >> isNamed: literal [
+
+	self subclassResponsibility.
+]

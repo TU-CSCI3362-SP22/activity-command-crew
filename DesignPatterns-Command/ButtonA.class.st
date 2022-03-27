@@ -10,3 +10,9 @@ ButtonA >> doAction [
 	Transcript show: 'Jump'.
 	Transcript cr.
 ]
+
+{ #category : #action }
+ButtonA >> isNamed: literal [
+
+	^literal = $A.
+]

@@ -45,21 +45,6 @@ GameObject >> posY: anObject [
 ]
 
 { #category : #action }
-GameObject >> pushA [
-	(buttons detect: [ :each | each isKindOf: ButtonA ]) doAction.	
-]
-
-{ #category : #action }
-GameObject >> pushB [
-	(buttons detect: [ :each | each isKindOf: ButtonB ]) doAction.	
-]
-
-{ #category : #action }
-GameObject >> pushX [
-	(buttons detect: [ :each | each isKindOf: ButtonX ]) doAction.	
-]
-
-{ #category : #action }
-GameObject >> pushY [
-	(buttons detect: [ :each | each isKindOf: ButtonY ]) doAction.	
+GameObject >> pushButton: literal [
+	(buttons detect: [ :each | each isNamed: literal ]) doAction.	
 ]
