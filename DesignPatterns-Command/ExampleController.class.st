@@ -4,24 +4,14 @@ Class {
 	#category : #'DesignPatterns-Command'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #example }
 ExampleController >> makeExample [
 
 	| ent a b x y |
 	
 	ent := GameObject new.
-	a := ButtonA new.
-	a controlledEntity: ent.
-	b := ButtonB new.
-	b controlledEntity: ent.
-	x := ButtonX new.
-	x controlledEntity: ent.
-	y := ButtonY new.
-	y controlledEntity: ent.
-	
-	a doAction.
-	b doAction.
-	x doAction.
-	y doAction.
-		
+	ent pushA.
+	ent pushB.
+	ent pushX.
+	ent pushY.
 ]
