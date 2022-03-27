@@ -41,8 +41,10 @@ Take our example of a controller with 4 buttons and each button triggering a cer
 
 ### Takeaways:
 - Commands make executing arbitrary actions simple.
-- Note that in our example, you could replace commands with blocks without issue. This wouldn't be the case, however, if your command needed to hold state that persists across executions, or if, for example, you were writing a level editor and needed your commands to be able to undo themselves. In that instance, it's trivial to just implement an undo method for undoable commands, but not so trivial if you're using blocks for everything. 
-- For cases where performance is important, and it doesn't matter what order your commands get executed in, commands lend themselves really well to a producer-consumer pattern of multithreading, where a main thread generates commands and pushes them onto a queue, and a bunch of consumer threads pop them off and work on them. 
-- Having a bunch of command objects floating around, especially if they are all equivalent instances of the same class, can be a waste of memory. 
+- In our example, you could replace commands with blocks without issue (besides jump). This wouldn't be the case, however, if your command needed to hold a state that persists across executions, or if, for example, you were writing a level editor and needed your commands to be able to undo themselves. In that instance, it's trivial to just implement an undo method for undoable commands, but not so trivial if you're using blocks for everything. 
 - There's still a lot of subclassing happening, it's just been moved into the command instead of the button, so if big inheritance hierarchies and dynamic dispatch are too slow for your use case, command is not optimal at times. 
 - That also means that your code can be difficult to manage because the logic is split among so many subclasses. 
+
+### Further Notes
+- For cases where performance is important, and it doesn't matter what order your commands get executed in, commands lend themselves really well to a producer-consumer pattern of multithreading, where a main thread generates commands and pushes them onto a queue, and a bunch of consumer threads pop them off and work on them. 
+- Having a bunch of command objects floating around, especially if they are all equivalent instances of the same class, can be a waste of memory. 
