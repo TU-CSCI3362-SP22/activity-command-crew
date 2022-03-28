@@ -45,6 +45,7 @@ Take our example of a controller with 4 buttons, where each button triggers a ce
    - Add subclasses of `Command` for Jump, Shoot, Duck, and Attack. Define the functionality for each `Command` within the `execute` method. 
 - Replace the `GameObject >> replaceButton: with:` method with a `bind: with:` method. The first parameter will still be a button name, but the second will now be a `Command` object. Select the button with that name and update it's command!
   - Optionally, define a `swapButton: with:` method that takes two button names and swaps their commands.
+  - Optionally, replace the `OrderedCollection` with a `Dictionary` mapping the `name` of a button to the button itself.
 - Modify the example code to switch it to the new `Command`-centric style. You will create four buttons and four commands. Be sure to test out reassigning buttons!
 
 ### Takeaways:
